@@ -1,0 +1,209 @@
+/* ============================================
+   FLIP CARD — True Single-Flap Mechanics
+   ============================================ */
+
+.flip-card {
+  position: relative;
+  width: clamp(120px, 20vw, 260px);
+  height: clamp(160px, 28vw, 340px);
+  perspective: 800px;
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  box-shadow:
+    var(--shadow-card),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-card);
+  transition: box-shadow 0.4s ease;
+}
+
+.flip-card:hover {
+  box-shadow:
+    var(--shadow-card),
+    var(--shadow-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.flip-card span {
+  font-family: var(--font-clock);
+  font-weight: 800;
+  font-size: clamp(5rem, 14vw, 12rem);
+  color: var(--text-primary);
+  user-select: none;
+  line-height: 1;
+  display: block;
+}
+
+/* Inner container positions the text to show upper or lower half */
+.flip-card-inner {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 200%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.flip-card-inner.upper { top: 0; }
+.flip-card-inner.lower { top: -100%; }
+
+/* ============================================
+   STATIC BACKS
+   ============================================ */
+.flip-card-upper-back,
+.flip-card-lower-back {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50%;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.flip-card-upper-back {
+  top: 0;
+  background: linear-gradient(180deg, var(--bg-card-highlight) 0%, var(--bg-card) 100%);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.flip-card-lower-back {
+  bottom: 0;
+  background: linear-gradient(180deg, var(--bg-card) 0%, #0f0f0f 100%);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+/* Shadows on static backs */
+.flip-card-upper-back::after,
+.flip-card-lower-back::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.flip-card-upper-back::after {
+  background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 100%);
+}
+.flip-card.flipping .flip-card-upper-back::after {
+  animation: shadowFadeOut 0.6s ease-in forwards;
+}
+
+.flip-card-lower-back::after {
+  background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.8) 100%);
+}
+.flip-card.flipping .flip-card-lower-back::after {
+  animation: shadowFadeIn 0.6s ease-in forwards;
+}
+
+/* ============================================
+   ANIMATED SINGLE FLAP
+   ============================================ */
+.flip-card-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  z-index: 3;
+  transform-style: preserve-3d;
+  transform-origin: bottom center;
+}
+.flip-card.flipping .flip-card-flap {
+  animation: flipDown 0.6s ease-in forwards;
+}
+
+.flip-card-flap-front,
+.flip-card-flap-back {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.flip-card-flap-front {
+  background: linear-gradient(180deg, var(--bg-card-highlight) 0%, var(--bg-card) 100%);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.flip-card-flap-back {
+  background: linear-gradient(180deg, var(--bg-card) 0%, #0f0f0f 100%);
+  transform: rotateX(180deg);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+/* Shadows on flap */
+.flip-card-shadow-front,
+.flip-card-shadow-back {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.flip-card-shadow-front {
+  background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.8) 100%);
+  opacity: 0;
+}
+.flip-card.flipping .flip-card-shadow-front {
+  animation: shadowFadeIn 0.6s ease-in forwards;
+}
+
+.flip-card-shadow-back {
+  background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.1) 100%);
+  opacity: 1;
+}
+.flip-card.flipping .flip-card-shadow-back {
+  animation: shadowFadeOut 0.6s ease-in forwards;
+}
+
+/* ============================================
+   CENTER DIVIDER
+   ============================================ */
+.flip-card-divider {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 10;
+  transform: translateY(-50%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.04),
+    0 -1px 0 rgba(0, 0, 0, 0.4);
+}
+
+.flip-card-divider::before,
+.flip-card-divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--bg-primary);
+  transform: translateY(-50%);
+  z-index: 11;
+}
+.flip-card-divider::before { left: -6px; }
+.flip-card-divider::after  { right: -6px; }
+
+/* ============================================
+   KEYFRAMES
+   ============================================ */
+@keyframes flipDown {
+  0% { transform: rotateX(0deg); }
+  100% { transform: rotateX(-180deg); }
+}
+
+@keyframes shadowFadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes shadowFadeOut {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}

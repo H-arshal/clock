@@ -1,0 +1,338 @@
+/* ===== Alarm Display ===== */
+.alarm-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  border-radius: 100px;
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  user-select: none;
+}
+
+.alarm-display:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.alarm-display.ringing {
+  background: rgba(74, 222, 128, 0.1);
+  border-color: var(--accent-green);
+  animation: ringPulse 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes ringPulse {
+  from { box-shadow: 0 0 0 0 var(--accent-green-dim); }
+  to { box-shadow: 0 0 20px 4px var(--accent-green-dim); }
+}
+
+.alarm-icon {
+  width: 14px;
+  height: 14px;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.alarm-display.ringing .alarm-icon {
+  color: var(--accent-green);
+  animation: shake 0.3s ease-in-out infinite;
+}
+
+@keyframes shake {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-15deg); }
+  75% { transform: rotate(15deg); }
+}
+
+.alarm-text {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.ringing-text {
+  color: var(--accent-green);
+  font-weight: 600;
+}
+
+.alarm-active-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-green);
+  flex-shrink: 0;
+  animation: dotPulse 2s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 4px var(--accent-green); }
+  50% { opacity: 0.5; box-shadow: none; }
+}
+
+/* ===== Modal Overlay ===== */
+.alarm-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: overlayFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Close transition */
+.alarm-modal-overlay.closing {
+  animation: overlayFadeOut 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes overlayFadeIn {
+  from { opacity: 0; backdrop-filter: blur(0); }
+  to   { opacity: 1; backdrop-filter: blur(12px); }
+}
+
+@keyframes overlayFadeOut {
+  from { opacity: 1; backdrop-filter: blur(12px); }
+  to   { opacity: 0; backdrop-filter: blur(0); }
+}
+
+.alarm-modal {
+  background: linear-gradient(145deg, #1a1a1a, #111111);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  min-width: 360px;
+  max-width: 90vw;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.8);
+  animation: modalSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Close transition */
+.alarm-modal.closing {
+  animation: modalSlideOut 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes modalSlideIn {
+  from {
+    transform: translateY(-40px) scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes modalSlideOut {
+  from {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(20px) scale(0.96);
+    opacity: 0;
+  }
+}
+
+.alarm-modal-title {
+  font-family: var(--font-ui);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 28px;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+/* ===== Time Picker ===== */
+.alarm-time-picker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.alarm-picker-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.alarm-picker-label {
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.alarm-picker-control {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.alarm-picker-btn {
+  width: 40px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.alarm-picker-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+}
+
+.alarm-picker-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.alarm-picker-value {
+  font-family: var(--font-clock);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  min-width: 80px;
+  text-align: center;
+  line-height: 1;
+  position: relative;
+}
+
+.alarm-picker-period {
+  position: absolute;
+  bottom: -2px;
+  right: -4px;
+  font-size: 0.6rem;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.1em;
+}
+
+.alarm-picker-colon {
+  font-family: var(--font-clock);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  padding-top: 20px;
+}
+
+/* ===== Day Selector ===== */
+.alarm-day-selector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.alarm-day-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+}
+
+.alarm-day-pill {
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 6px 12px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.alarm-day-pill:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-primary);
+}
+
+.alarm-day-pill.active {
+  background: rgba(74, 222, 128, 0.15);
+  border-color: var(--accent-green);
+  color: var(--accent-green);
+}
+
+/* ===== Modal Actions ===== */
+.alarm-modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.alarm-modal-btn {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 10px 28px;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.alarm-modal-btn.cancel {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+.alarm-modal-btn.cancel:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+}
+
+.alarm-modal-btn.save {
+  background: linear-gradient(135deg, var(--accent-green), #22c55e);
+  color: #000;
+}
+
+.alarm-modal-btn.save:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px var(--accent-green-dim);
+}
+
+.alarm-disable-btn {
+  display: block;
+  margin: 16px auto 0;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: #ef4444;
+  background: none;
+  border: none;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.alarm-disable-btn:hover {
+  opacity: 1;
+}

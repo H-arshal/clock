@@ -1,0 +1,103 @@
+/* ===== Flip Clock Layout ===== */
+.flip-clock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 3vw, 32px);
+}
+
+.flip-clock-section {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.flip-clock-digits {
+  display: flex;
+  gap: clamp(6px, 1vw, 12px);
+}
+
+/* ===== Period Indicator (AM/PM) ===== */
+.period-indicator {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-right: clamp(4px, 1vw, 12px);
+}
+
+.period-label {
+  font-family: var(--font-ui);
+  font-size: clamp(0.65rem, 1.2vw, 0.9rem);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  transition: all 0.3s ease;
+}
+
+.period-label.active {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* ===== Separator Dots ===== */
+.flip-clock-separator {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 3vw, 32px);
+  padding-bottom: 8px;
+}
+
+.separator-dot {
+  width: clamp(10px, 1.5vw, 16px);
+  height: clamp(10px, 1.5vw, 16px);
+  border-radius: 50%;
+  background: var(--text-primary);
+  animation: pulseDot 2s ease-in-out infinite;
+}
+
+.separator-dot:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* ===== Seconds Display ===== */
+.flip-clock-seconds {
+  align-self: flex-end;
+  margin-bottom: 8px;
+}
+
+.seconds-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: clamp(8px, 1.5vw, 16px);
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  min-width: clamp(48px, 5vw, 72px);
+}
+
+.seconds-value {
+  font-family: var(--font-clock);
+  font-weight: 700;
+  font-size: clamp(1.2rem, 2.5vw, 2rem);
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.seconds-label {
+  font-family: var(--font-ui);
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--text-secondary);
+}

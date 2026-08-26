@@ -1,0 +1,196 @@
+/* ===== App Layout ===== */
+.app {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ===== Ambient Background Effects ===== */
+/* z-index: -2 to ensure backgrounds are always behind all content */
+.bg-gradient {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.08;
+  pointer-events: none;
+  z-index: -2;
+}
+
+.bg-gradient-1 {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, #4ade80, transparent 70%);
+  top: -200px;
+  right: -100px;
+  animation: floatGlow 20s ease-in-out infinite;
+}
+
+.bg-gradient-2 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, #3b82f6, transparent 70%);
+  bottom: -200px;
+  left: -100px;
+  animation: floatGlow 25s ease-in-out infinite reverse;
+}
+
+/* --- Focus Mode Ambient Colors --- */
+.app.focus-mode.phase-focus .bg-gradient-1 { background: radial-gradient(circle, #ef4444, transparent 70%); }
+.app.focus-mode.phase-focus .bg-gradient-2 { background: radial-gradient(circle, #f97316, transparent 70%); }
+
+.app.focus-mode.phase-shortBreak .bg-gradient-1,
+.app.focus-mode.phase-longBreak .bg-gradient-1 { background: radial-gradient(circle, #3b82f6, transparent 70%); }
+.app.focus-mode.phase-shortBreak .bg-gradient-2,
+.app.focus-mode.phase-longBreak .bg-gradient-2 { background: radial-gradient(circle, #0ea5e9, transparent 70%); }
+
+@keyframes floatGlow {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -20px) scale(1.1); }
+  66% { transform: translate(-20px, 30px) scale(0.9); }
+}
+
+/* z-index: -1 to layer noise above gradients but below content */
+.bg-noise {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ===== Top Bar ===== */
+/* z-index: 1 — above background, content layer */
+.top-bar {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: clamp(16px, 3vh, 32px) clamp(20px, 4vw, 48px);
+}
+
+/* ===== View Tabs ===== */
+/* z-index: 1 — same stacking as top-bar */
+.view-tabs {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  padding: 0 clamp(20px, 4vw, 48px);
+}
+
+.view-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 8px 20px;
+  border-radius: 100px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.view-tab svg {
+  width: 14px;
+  height: 14px;
+}
+
+.view-tab:hover {
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.view-tab.active {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--border-card);
+}
+
+/* Running indicator badge on timer tab */
+.view-tab-badge {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-green);
+  animation: dotPulse 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes dotPulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 4px var(--accent-green); }
+  50% { opacity: 0.4; box-shadow: none; }
+}
+
+/* ===== Clock Container ===== */
+/* z-index: 1 — content layer */
+.clock-container {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 clamp(16px, 3vw, 48px);
+}
+
+/* ===== Bottom Bar ===== */
+/* z-index: 1 — content layer */
+.bottom-bar {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: clamp(16px, 3vh, 32px) clamp(20px, 4vw, 48px);
+}
+
+.brand-label {
+  font-family: var(--font-ui);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+
+/* ===== Responsive Adjustments ===== */
+@media (max-width: 768px) {
+  .top-bar,
+  .bottom-bar {
+    padding: 12px 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .view-tabs {
+    padding: 0 16px;
+  }
+  
+  .view-tab {
+    padding: 8px 16px;
+    font-size: 0.7rem;
+  }
+  
+  .clock-container {
+    padding: 0 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .top-bar {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
