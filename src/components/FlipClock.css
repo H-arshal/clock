@@ -101,3 +101,53 @@
   letter-spacing: 0.2em;
   color: var(--text-secondary);
 }
+
+/* ============================================
+   RESPONSIVE MEDIA QUERIES
+   ============================================ */
+@media (max-width: 600px) {
+  .flip-clock {
+    gap: 16px;
+  }
+  .flip-clock-separator {
+    gap: 16px;
+  }
+  .separator-dot {
+    width: 8px;
+    height: 8px;
+  }
+  .seconds-display {
+    min-width: 48px;
+    padding: 6px;
+  }
+  .seconds-value {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .flip-clock {
+    gap: 8px;
+  }
+  .flip-clock-separator {
+    gap: 12px;
+  }
+  .separator-dot {
+    width: 6px;
+    height: 6px;
+  }
+  .seconds-display {
+    min-width: 40px;
+    padding: 4px;
+  }
+  .seconds-value {
+    font-size: 1rem;
+  }
+  .seconds-label {
+    font-size: 0.45rem;
+  }
+  .period-label {
+    font-size: 0.55rem;
+    padding: 2px 4px;
+  }
+}

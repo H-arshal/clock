@@ -336,3 +336,33 @@
 .alarm-disable-btn:hover {
   opacity: 1;
 }
+
+/* ============================================
+   RESPONSIVE MEDIA QUERIES
+   ============================================ */
+@media (max-width: 480px) {
+  .alarm-modal {
+    min-width: unset;
+    width: 92vw;
+    padding: 24px;
+  }
+  .alarm-time-picker {
+    gap: 12px;
+  }
+  .alarm-picker-value {
+    font-size: 2rem;
+    min-width: 60px;
+  }
+  .alarm-picker-colon {
+    font-size: 2rem;
+    padding-top: 16px;
+  }
+  .alarm-day-pill {
+    padding: 6px 8px;
+    font-size: 0.6rem;
+  }
+  .alarm-modal-title {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+  }
+}

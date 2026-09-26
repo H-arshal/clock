@@ -189,7 +189,8 @@
 }
 
 @media (max-width: 480px) {
-  .top-bar {
+  .top-bar,
+  .bottom-bar {
     flex-direction: column;
     gap: 12px;
   }

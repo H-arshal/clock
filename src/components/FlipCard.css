@@ -207,3 +207,36 @@
   0% { opacity: 1; }
   100% { opacity: 0; }
 }
+
+/* ============================================
+   RESPONSIVE MEDIA QUERIES
+   ============================================ */
+@media (max-width: 900px) {
+  .flip-card {
+    width: clamp(70px, 12vw, 110px);
+    height: clamp(100px, 18vw, 160px);
+  }
+  .flip-card span {
+    font-size: clamp(3.5rem, 8vw, 6rem);
+  }
+}
+
+@media (max-width: 600px) {
+  .flip-card {
+    width: clamp(50px, 12vw, 70px);
+    height: clamp(75px, 18vw, 100px);
+  }
+  .flip-card span {
+    font-size: clamp(2.5rem, 8vw, 3.5rem);
+  }
+}
+
+@media (max-width: 400px) {
+  .flip-card {
+    width: clamp(40px, 11vw, 50px);
+    height: clamp(60px, 16vw, 75px);
+  }
+  .flip-card span {
+    font-size: clamp(1.8rem, 7vw, 2.5rem);
+  }
+}
